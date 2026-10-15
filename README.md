@@ -9,6 +9,12 @@ You will be given a six-digit number (`000000` to `999999`). Your answer must be
 2. **An x86-64 function**, invoked with `call`, that returns a pointer to the
    six digits (leading zeros included) as a NUL-terminated string.
 
+Treat the function like a real one. It is loaded at an unpredictable address,
+and the stack is somewhere else unpredictable. The registers and status flags
+hold whatever the caller left in them (the direction flag is clear). The
+string must still be there after the caller goes on to make other calls, and
+the caller's own stack frames must not be modified.
+
 Once you are given the number, you have 60 seconds to answer. What you are
 building is a generator that works for any number:
 
@@ -20,8 +26,10 @@ Also explain how it works in `WRITEUP.md`.
 
     python check.py 482913 answer.bin
 
-This checks both properties. It runs the code in an emulator from a fixed
-initial state; for any detail not covered here, the checker is the referee.
+This checks both properties. It runs the code in an emulator several times
+from random initial states; for any detail not covered here, the checker is
+the referee. A failing run prints its seed, and `python check.py N answer.bin
+SEED` repeats that run.
 
 ## Environment
 
